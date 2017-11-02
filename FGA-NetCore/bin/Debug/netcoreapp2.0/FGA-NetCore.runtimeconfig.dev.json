@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "/Users/wissanu/.dotnet/store/|arch|/|tfm|",
+      "/Users/wissanu/.nuget/packages"
+    ]
+  }
+}
