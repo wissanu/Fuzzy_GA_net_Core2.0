@@ -229,16 +229,23 @@ namespace FGA_NetCore.optimize
         private static Random rand = new Random();
         public class GA
         {
-            public string[,] origindata; // use this origin data variable as inputdata by ignore the last column when used.
-            public string[] outputdata; // collect output data 
-            public int num_rec = 635; // change this when your original data has increase or decrease.
+            // progress in training process for full-training and percentage-split is done. the rest is testset.
+            // full-traning set = 635. fitness = 82.28
+            // percentage-split 20% = 127. fitness = 92.53
+            // percentage-split 60% = 381. fitness = 83.xx
+            // percentage-split 70% = 444. fitness = 82.98
+
+            public string[,] trainingset; // use this origin data variable as inputdata by ignore the last column when used.
+            public string[,] testset;
+            public string[] trainingset_classoutput; // collect classoutput of traniningset data
+            public string[] testset_classoutput;
+            public int num_rec = 127; // change this when your original data has increase or decrease.
             public string check_status_output = "yes";
             public double MutationRate;
             public double CrossoverRate;
             public int ChromosomeLength;
             public int PopulationSize;
             public int GenerationSize;
-            public double TotalFitness;
             public bool Elitism;
             public double best_fitness = 0.0;
             public double[,] best_chromosome;
@@ -268,7 +275,7 @@ namespace FGA_NetCore.optimize
                 ChromosomeLength = ChromLength;
             }
 
-            public void LaunchGA()
+            public void LaunchGA(String Type_demonslation)
             {
                 FitnessList = new ArrayList();
                 CurrentGenerationList = new ArrayList(PopulationSize);
@@ -277,7 +284,7 @@ namespace FGA_NetCore.optimize
                 best_chromosome = new double[ChromosomeLength, 4];
                 Chromosome.ChromosomeMutationRate = MutationRate;
                 Chromosome.ChromosomeCrossoverRate = CrossoverRate;
-                outputdata = new string[num_rec];
+                trainingset_classoutput = new string[num_rec];
                 TN_value = new int[PopulationSize];
                 TP_value = new int[PopulationSize];
                 FP_value = new int[PopulationSize];
@@ -286,12 +293,28 @@ namespace FGA_NetCore.optimize
                 result = new double[PopulationSize];
 
                 // read data from CSV and collect to variable
-                origindata = Stroedata_file.LoadCsv();
+                trainingset = Stroedata_file.LoadCsv();
                 for (int i = 0; i < num_rec; i++)
-                    outputdata[i] = origindata[i, ChromosomeLength];
+                    trainingset_classoutput[i] = trainingset[i, ChromosomeLength];
 
+                // "5-crossfold", "percentage", "fulltrain"
+
+                // full- training set here.
+                if(Type_demonslation.Equals("fulltrain"))  
+                     traint_without_crossfold();
+
+                if(Type_demonslation.Equals("5-crossfold"))
+                {}
+
+                if(Type_demonslation.Equals("percentage"))
+                    traint_without_crossfold();
+
+            }
+
+            // usage in full-trainingset and percentage-split
+            public void traint_without_crossfold()
+            {
                 //initial create chromosome
-                int loop = 0;
                 while (true)
                 {
                     for (int count = 0; count < PopulationSize; count++)
@@ -330,22 +353,25 @@ namespace FGA_NetCore.optimize
                         calculatefitness();
                         rankpop();
 
-                        Console.WriteLine("-----------------------generation : {0}-----------------------", i);
+                        Console.WriteLine("-----------------------generation : {0}-----------------------", i+1);
                         Console.WriteLine("fitness_best : {0}", ((Chromosome)CurrentGenerationList[PopulationSize - 1]).ChromosomeFitness);
                         Console.WriteLine("Sensiticity : {0:0.00}%, Specificity : {1:0.00}%, Accuracy : {2:0.00}%", ((Chromosome)CurrentGenerationList[PopulationSize - 1]).Sensitivity, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).Specificity, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).Accuracy);
                         Console.WriteLine("TN_value : {0}, FN_value : {1}, TP_value : {2}, FP_value : {3}, A : {4}, B : {5}", ((Chromosome)CurrentGenerationList[PopulationSize - 1]).TN_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).FN_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).TP_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).FP_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).A, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).B);
                         Console.WriteLine("---------------------------------------------------------------");
 
                     }
-                    /*Console.WriteLine("-----------------------Best - Result-----------------------");
-                    Console.WriteLine("fitness_best : {0}", ((Chromosome)CurrentGenerationList[PopulationSize - 1]).ChromosomeFitness);
-                    Console.WriteLine("Sensiticity : {0:0.00}%, Specificity : {1:0.00}%, Accuracy : {2:0.00}%", ((Chromosome)CurrentGenerationList[PopulationSize - 1]).Sensitivity, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).Specificity, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).Accuracy);
-                    Console.WriteLine("TN_value : {0}, FN_value : {1}, TP_value : {2}, FP_value : {3}, A : {4}, B : {5}", ((Chromosome)CurrentGenerationList[PopulationSize - 1]).TN_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).FN_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).TP_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).FP_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).A, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).B);
-                    Console.WriteLine("---------------------------------------------------------------");*/
                     break;
                 }
-
             }
+
+            // using in 5-fold crossvalidation
+            public void _5foldcross()
+            {
+                // create the process of array training set divide by 1/5
+
+                // reproduct generation in GA process
+            }
+
             private double fuzzy(string[] data, int num)
             {
                 Chromosome g = ((Chromosome)CurrentGenerationList[num]);
@@ -384,30 +410,32 @@ namespace FGA_NetCore.optimize
                 string[] datax = new string[ChromosomeLength];
                 for (int i = 0; i < num_rec; i++)
                 {
+                    // using data from traning set
+
                     Enumerable.Range(0, PopulationSize).AsParallel().ForAll(x =>
                     {
                         for (int y = 0; y < ChromosomeLength; y++)
-                            datax[y] = origindata[i, y];
+                            datax[y] = trainingset[i, y];
 
                         result[x] = fuzzy(datax, x);
                     });
 
                     for (int x = 0; x < PopulationSize; x++)
                     {
-                        if ((result[x] >= threshold) && outputdata[i].Equals(check_status_output))
+                        if ((result[x] >= threshold) && trainingset_classoutput[i].Equals(check_status_output))
                         {
                             TN_value[x] = TN_value[x] + 1; // yes as yes
                         }
-                        else if ((result[x] >= threshold) && !outputdata[i].Equals(check_status_output))
+                        else if ((result[x] >= threshold) && !trainingset_classoutput[i].Equals(check_status_output))
                         {
                             FN_value[x] = FN_value[x] + 1; // no as yes
                         }
-                        else if ((result[x] < threshold) && !outputdata[i].Equals(check_status_output))
+                        else if ((result[x] < threshold) && !trainingset_classoutput[i].Equals(check_status_output))
                         {
                             TP_value[x] = TP_value[x] + 1; // classify no as
                                                            // no
                         }
-                        else if ((result[x] < threshold) && outputdata[i].Equals(check_status_output))
+                        else if ((result[x] < threshold) && trainingset_classoutput[i].Equals(check_status_output))
                         {
                             FP_value[x] = FP_value[x] + 1; // classify yes as
                                                            // no FN
@@ -415,7 +443,7 @@ namespace FGA_NetCore.optimize
                         else
                             unknown[x] = unknown[x] + 1;
                     }
-                    if (!outputdata[i].Equals(check_status_output))
+                    if (!trainingset_classoutput[i].Equals(check_status_output))
                         B++;
                     else { A++; }
                 }
@@ -593,13 +621,12 @@ namespace FGA_NetCore.optimize
             int count_time = 1;
             GA ga = new GA(0.9, 0.8, 100, 300, 8);
             ga.Elitism = true;
-            ga.LaunchGA();
+            ga.LaunchGA("fulltrain");
             var elapsedMs = DateTime.Now.Subtract(timeStarted).TotalSeconds;
 
             var x = DateTime.Now.Subtract(timeStarted);
             Console.WriteLine($"Time passed {Math.Floor(x.TotalMinutes)} min {x.Seconds}.{x.Milliseconds} sec");
             Console.ReadLine();
-
 
             // calculate the min of run time
             while (true)

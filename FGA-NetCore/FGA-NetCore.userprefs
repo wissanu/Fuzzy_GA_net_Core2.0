@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{DBDC37BB-17A6-47A5-A581-9200B5422300}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="optimize/FuzzyGA.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="optimize/Stroedata_file.cs">
     <Files>
-      <File FileName="optimize/FuzzyGA.cs" Line="574" Column="10" />
+      <File FileName="optimize/FuzzyGA.cs" Line="1" Column="1" />
       <File FileName="optimize/Stroedata_file.cs" Line="13" Column="87" />
     </Files>
   </MonoDevelop.Ide.Workbench>

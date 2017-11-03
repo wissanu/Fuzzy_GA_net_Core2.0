@@ -19,3 +19,14 @@
 /Users/wissanu/Desktop/FGA-NetCore/FGA-NetCore/obj/Debug/netcoreapp2.0/FGA-NetCore.AssemblyInfo.cs
 /Users/wissanu/Desktop/FGA-NetCore/FGA-NetCore/obj/Debug/netcoreapp2.0/FGA-NetCore.dll
 /Users/wissanu/Desktop/FGA-NetCore/FGA-NetCore/obj/Debug/netcoreapp2.0/FGA-NetCore.pdb
+/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/obj/Debug/netcoreapp2.0/FGA-NetCore.csprojResolveAssemblyReference.cache
+/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/obj/Debug/netcoreapp2.0/FGA-NetCore.csproj.CoreCompileInputs.cache
+/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/obj/Debug/netcoreapp2.0/FGA-NetCore.AssemblyInfoInputs.cache
+/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/obj/Debug/netcoreapp2.0/FGA-NetCore.AssemblyInfo.cs
+/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/obj/Debug/netcoreapp2.0/FGA-NetCore.dll
+/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/obj/Debug/netcoreapp2.0/FGA-NetCore.pdb
+/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/bin/Debug/netcoreapp2.0/FGA-NetCore.deps.json
+/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/bin/Debug/netcoreapp2.0/FGA-NetCore.runtimeconfig.json
+/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/bin/Debug/netcoreapp2.0/FGA-NetCore.runtimeconfig.dev.json
+/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/bin/Debug/netcoreapp2.0/FGA-NetCore.dll
+/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/bin/Debug/netcoreapp2.0/FGA-NetCore.pdb

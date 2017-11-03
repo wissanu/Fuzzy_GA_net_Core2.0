@@ -2278,11 +2278,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/wissanu/Desktop/FGA-NetCore/FGA-NetCore/FGA-NetCore.csproj",
+      "projectUniqueName": "/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/FGA-NetCore.csproj",
       "projectName": "FGA-NetCore",
-      "projectPath": "/Users/wissanu/Desktop/FGA-NetCore/FGA-NetCore/FGA-NetCore.csproj",
+      "projectPath": "/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/FGA-NetCore.csproj",
       "packagesPath": "/Users/wissanu/.nuget/packages/",
-      "outputPath": "/Users/wissanu/Desktop/FGA-NetCore/FGA-NetCore/obj",
+      "outputPath": "/Users/wissanu/Fuzzy_GA_net_Core2.0/FGA-NetCore/obj",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/wissanu/.config/NuGet/NuGet.Config"
