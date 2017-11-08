@@ -19,7 +19,7 @@ namespace FGA_NetCore.optimize
             // percentage-split 60% = 381. fitness = 83.xx
             // percentage-split 70% = 444. fitness = 82.98
 
-            public double percent_train = 0.6;
+            public double percent_train = 0.4;
             public int train_num;
             public int test_num;
             public string[,] temp_data;
@@ -82,32 +82,22 @@ namespace FGA_NetCore.optimize
                 best_chro = new Chromosome(4,false);
 
                 // change percen_train variable for full-train or percentage split.
-                train_num = (int)(Math.Floor(percent_train * num_rec)); // set percent_train = 1.0 for full-train. otherwise, for percentage split.
-                test_num = num_rec - train_num;
+                train_num = (Type_demonslation.Equals("fulltrain"))? num_rec : (Type_demonslation.Equals("percentage")) ? (int)(Math.Floor(percent_train * num_rec)) : (int)(num_rec * 0.2); // set percent_train = 1.0 for full-train. otherwise, for percentage split.
+                test_num = (Type_demonslation.Equals("fulltrain"))? num_rec : (Type_demonslation.Equals("percentage")) ? (num_rec - train_num) : (int)(num_rec * 0.8);
 
                 // read data from CSV and collect to variable
                 temp_data = Stroedata_file.LoadCsv();
 
                 //define capacity of trainingset and testset.
-                if(Type_demonslation.Equals("percentage") || Type_demonslation.Equals("fulltrain"))
-                {
-                    trainingset = new string[train_num, ChromosomeLength];
-                    trainingset_classoutput = new string[train_num];
-                    testset = new string[test_num, ChromosomeLength];
-                    testset_classoutput = new string[test_num];   
-                }
-
-                if(Type_demonslation.Equals("5-crossfold"))
-                {
-                    trainingset = new string[(int)(num_rec*0.2), ChromosomeLength];
-                    trainingset_classoutput = new string[(int)(num_rec * 0.2)];
-                    testset = new string[(int)(num_rec * 0.8), ChromosomeLength];
-                    testset_classoutput = new string[(int)(num_rec * 0.8)];
-                }
+                trainingset = new string[train_num, ChromosomeLength];
+                trainingset_classoutput = new string[train_num];
+                testset = new string[test_num, ChromosomeLength];
+                testset_classoutput = new string[test_num];   
 
                 // split train & output class data
                 if (Type_demonslation.Equals("percentage") || Type_demonslation.Equals("fulltrain"))
                 {
+                    int x = 0;
                     for (int i = 0; i < train_num; i++)
                     {
                         for (int l = 0; l < ChromosomeLength; l++)
@@ -119,8 +109,9 @@ namespace FGA_NetCore.optimize
                     for (int i = train_num; i < test_num; i++)
                     {
                         for (int l = 0; l < ChromosomeLength; l++)
-                            testset[i, l] = temp_data[i, l];
-                        testset_classoutput[i] = temp_data[i, ChromosomeLength];
+                            testset[x, l] = temp_data[i, l];
+                        testset_classoutput[x] = temp_data[i, ChromosomeLength];
+                        x++;
                     }
                 }
 
@@ -131,10 +122,9 @@ namespace FGA_NetCore.optimize
 
             public void train_test(string status)
             {
+                Testing getrule = new Testing();
                 int count_number = 1;
                 int num_cross_fold = 1;
-                train_num = (int)(num_rec * 0.2);
-                test_num = (int)(num_rec * 0.8);
                 int loop = 1;
 
                 //initial create chromosome
@@ -212,13 +202,6 @@ namespace FGA_NetCore.optimize
                         calculatefitness();
                         rankpop();
                     }
-                    /*Console.WriteLine("-----------------------Solution-----------------------");
-                    Console.WriteLine("fitness_best : {0}", ((Chromosome)CurrentGenerationList[PopulationSize - 1]).ChromosomeFitness);
-                    Console.WriteLine("Sensiticity : {0:0.00}%, Specificity : {1:0.00}%, Accuracy : {2:0.00}%", ((Chromosome)CurrentGenerationList[PopulationSize - 1]).Sensitivity, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).Specificity, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).Accuracy);
-                    Console.WriteLine("TN_value : {0}, FN_value : {1}, TP_value : {2}, FP_value : {3}, A : {4}, B : {5}", ((Chromosome)CurrentGenerationList[PopulationSize - 1]).TN_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).FN_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).TP_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).FP_value_best, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).A, ((Chromosome)CurrentGenerationList[PopulationSize - 1]).B);
-                    for (int x = 0; x < ChromosomeLength; x++)
-                        Console.WriteLine("{0},{1},{2},{3}", ((Chromosome)CurrentGenerationList[PopulationSize - 1]).ChromosomeGenes[x, 0], ((Chromosome)CurrentGenerationList[PopulationSize - 1]).ChromosomeGenes[x, 1], ((Chromosome)CurrentGenerationList[PopulationSize - 1]).ChromosomeGenes[x, 2], ((Chromosome)CurrentGenerationList[PopulationSize - 1]).ChromosomeGenes[x, 3]);
-                    Console.WriteLine("---------------------------------------------------------------");*/
 
                     if (loop == 5)
                     {
@@ -231,7 +214,12 @@ namespace FGA_NetCore.optimize
                         Console.WriteLine("---------------------------------------------------------------");
                         num_cross_fold++; // for ending each folds of cross-validaton
                         loop++;
-                        //break;
+
+                        // test process
+                        //getrule.ruletest(best_chro,testset,testset_classoutput);
+
+                        if (status.Equals("fulltrain") || status.Equals("percentage"))
+                            break;
                     }
                     else
                     {

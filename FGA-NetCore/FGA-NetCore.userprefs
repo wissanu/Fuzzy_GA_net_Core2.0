@@ -1,10 +1,10 @@
 ﻿<Properties StartupConfiguration="{DBDC37BB-17A6-47A5-A581-9200B5422300}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument="FGA-NetCore Status">
     <Files>
-      <File FileName="optimize/Stroedata_file.cs" Line="20" Column="13" />
-      <File FileName="optimize/FuzzyGA.cs" Line="233" Column="32" />
-      <File FileName="optimize/Testing.cs" Line="6" Column="12" />
-      <File FileName="optimize/Chromosome.cs" Line="28" Column="34" />
+      <File FileName="optimize/Stroedata_file.cs" Line="26" Column="14" />
+      <File FileName="optimize/FuzzyGA.cs" Line="134" Column="22" />
+      <File FileName="optimize/Testing.cs" Line="8" Column="13" />
+      <File FileName="optimize/Chromosome.cs" Line="10" Column="6" />
       <File FileName="FGA-NetCore Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
