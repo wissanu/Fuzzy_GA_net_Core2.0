@@ -19,7 +19,7 @@ namespace FGA_NetCore.optimize
             int num_cols = lines[0].Split(',').Length;
 
             // Allocate the data array.
-            string[,] values = new string[num_rows, num_cols];
+            string[,] values_train = new string[num_rows, num_cols];
 
             // Load the array.
             for (int r = 0; r < num_rows; r++)
@@ -27,10 +27,10 @@ namespace FGA_NetCore.optimize
                 string[] line_r = lines[r].Split(',');
                 for (int c = 0; c < num_cols; c++)
                 {
-                    values[r, c] = line_r[c];
+                    values_train[r, c] = line_r[c];
                 }
             }
-            return values;
+            return values_train;
         }
     }
 }
