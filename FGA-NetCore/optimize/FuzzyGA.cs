@@ -19,7 +19,7 @@ namespace FGA_NetCore.optimize
             // percentage-split 60% = 381. fitness = 83.xx
             // percentage-split 70% = 444. fitness = 82.98
 
-            public double percent_train = 0.4;
+            public double percent_train = 0.8;
             public int train_num;
             public int test_num;
             public string[,] temp_data;
@@ -92,10 +92,25 @@ namespace FGA_NetCore.optimize
                 trainingset = new string[train_num, ChromosomeLength];
                 trainingset_classoutput = new string[train_num];
                 testset = new string[test_num, ChromosomeLength];
-                testset_classoutput = new string[test_num];   
+                testset_classoutput = new string[test_num];
 
                 // split train & output class data
-                if (Type_demonslation.Equals("percentage") || Type_demonslation.Equals("fulltrain"))
+                if(Type_demonslation.Equals("fulltrain"))
+                {
+                    for (int i = 0; i < num_rec; i++)
+                    {
+                        for (int l = 0; l < ChromosomeLength; l++)
+                        {
+                            trainingset[i, l] = temp_data[i, l];
+                            testset[i, l] = temp_data[i, l];
+                        }
+                            
+                        trainingset_classoutput[i] = temp_data[i, ChromosomeLength];
+                        testset_classoutput[i] = temp_data[i, ChromosomeLength];
+                    }
+                }
+
+                if (Type_demonslation.Equals("percentage"))
                 {
                     int x = 0;
                     for (int i = 0; i < train_num; i++)
@@ -106,7 +121,7 @@ namespace FGA_NetCore.optimize
                     }
 
                     // split test & output class data
-                    for (int i = train_num; i < test_num; i++)
+                    for (int i = train_num; i < num_rec; i++)
                     {
                         for (int l = 0; l < ChromosomeLength; l++)
                             testset[x, l] = temp_data[i, l];
@@ -216,7 +231,7 @@ namespace FGA_NetCore.optimize
                         loop++;
 
                         // test process
-                        //getrule.ruletest(best_chro,testset,testset_classoutput);
+                        getrule.ruletest(best_chro,test_num,testset,testset_classoutput);
 
                         if (status.Equals("fulltrain") || status.Equals("percentage"))
                             break;
@@ -482,7 +497,7 @@ namespace FGA_NetCore.optimize
             var timeStarted = DateTime.Now;
             GA ga = new GA(0.9, 0.8, 100, 300, 8);
             ga.Elitism = true;
-            ga.LaunchGA("5-crossfold");
+            ga.LaunchGA("percentage");
 
             var elapsedMs = DateTime.Now.Subtract(timeStarted).TotalSeconds;
             var x = DateTime.Now.Subtract(timeStarted);

@@ -2,9 +2,9 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="FGA-NetCore Status">
     <Files>
       <File FileName="optimize/Stroedata_file.cs" Line="26" Column="14" />
-      <File FileName="optimize/FuzzyGA.cs" Line="134" Column="22" />
-      <File FileName="optimize/Testing.cs" Line="8" Column="13" />
-      <File FileName="optimize/Chromosome.cs" Line="10" Column="6" />
+      <File FileName="optimize/FuzzyGA.cs" Line="178" Column="30" />
+      <File FileName="optimize/Testing.cs" Line="117" Column="49" />
+      <File FileName="optimize/Chromosome.cs" Line="13" Column="30" />
       <File FileName="FGA-NetCore Status" />
     </Files>
   </MonoDevelop.Ide.Workbench>
