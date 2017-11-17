@@ -51,6 +51,9 @@ namespace FGA_NetCore.optimize
         public void Crossover(ref Chromosome Chromosome2, out Chromosome child1, out Chromosome child2)
         {
             int position_of_attribute1;
+            int position_of_attribute2;
+            int position_of_attribute3;
+            int position_of_attribute4;
             int position;
             child1 = new Chromosome(ChromosomeLength, false);
             child2 = new Chromosome(ChromosomeLength, false);

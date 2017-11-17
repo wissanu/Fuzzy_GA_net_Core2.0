@@ -26,6 +26,7 @@ namespace FGA_NetCore.optimize
             //process of get result from testset with rule.
             calculate(test_num,testset,testset_outputclass);
 
+            //result of test process.
             Console.WriteLine("-----------------------Test-Solution-----------------------");
             Console.WriteLine("fitness_best : {0}", exact_rule.ChromosomeFitness);
             Console.WriteLine("Sensiticity : {0:0.00}%, Specificity : {1:0.00}%, Accuracy : {2:0.00}%", exact_rule.Sensitivity, exact_rule.Specificity, exact_rule.Accuracy);
@@ -34,6 +35,7 @@ namespace FGA_NetCore.optimize
                 Console.WriteLine("{0},{1},{2},{3}", exact_rule.ChromosomeGenes[x, 0], exact_rule.ChromosomeGenes[x, 1], exact_rule.ChromosomeGenes[x, 2], exact_rule.ChromosomeGenes[x, 3]);
             Console.WriteLine("---------------------------------------------------------------");
 
+            //reset value
             TP_value = 0;
             TN_value = 0;
             FP_value = 0;
@@ -75,7 +77,7 @@ namespace FGA_NetCore.optimize
         public void calculate(int test_num, string[,] testset, string[] testset_outputclass)
         {
             // calculate probability using for fitness fucntion
-            double threshold = 0.3;
+            double threshold = 0.255;
             string[] datax = new string[exact_rule.ChromosomeLength];
             for (int i = 0; i < test_num; i++)
             {
